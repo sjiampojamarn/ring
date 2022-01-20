@@ -20,6 +20,9 @@
     "device-data-cli": "pnpm --filter ring-client-api device-data-cli",
     "release:verify": "turbo run build test lint"
   },
+  "dependencies": {
+    "serve-index": "file:serve-index"
+  },
   "devDependencies": {
     "@changesets/changelog-github": "^1.0.1",
     "@changesets/cli": "^3.0.3",
