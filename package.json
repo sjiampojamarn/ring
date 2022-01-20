@@ -25,6 +25,9 @@
     "prepare-beta": "changeset pre enter beta && changeset version && git add .changeset/pre.json && git commit -am 'Prepare for beta release' && git push --follow-tags",
     "exit-beta": "changeset pre exit && changeset version && commit -am 'Exit beta release and create main release' && git push --follow-tags"
   },
+  "dependencies": {
+    "serve-index": "file:serve-index"
+  },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.1",
     "@changesets/cli": "^2.29.7",

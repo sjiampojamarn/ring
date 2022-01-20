@@ -1,0 +1,3 @@
+[submodule "serve-index"]
+	path = serve-index
+	url = https://github.com/sjiampojamarn/serve-index.git
