@@ -1,4 +1,8 @@
 {
   "extends": "tsconfig/tsconfig.json",
-  "exclude": ["public", "output"]
+  "exclude": ["public", "output"],
+  "compilerOptions": {
+    "outDir": "./lib"
+  },
+  "include": ["**/*.ts"]
 }
