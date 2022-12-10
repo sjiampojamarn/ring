@@ -1,4 +1,4 @@
-import { PushNotificationAction, RingApi } from '../api'
+import { PushNotificationAction, RingApi } from 'ring-client-api'
 import { readFile, writeFile } from 'fs'
 import { promisify } from 'util'
 

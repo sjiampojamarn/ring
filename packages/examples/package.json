@@ -3,6 +3,7 @@
   "version": "0.0.0-dev",
   "private": true,
   "scripts": {
+    "build": "rm -rf lib && tsc --declaration",
     "lint": "eslint . --ext .ts"
   },
   "dependencies": {
