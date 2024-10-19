@@ -18,4 +18,7 @@ ENTRYPOINT ["/bin/bash", "-c", \
 
 EXPOSE 3000
 
+HEALTHCHECK --interval=30s --timeout=3s \
+  CMD wget --quiet --tries=1 --spider http://localhost:3000/ || exit 1
+
 VOLUME /root
