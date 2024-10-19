@@ -1,17 +1,15 @@
-ARG BUILD_FROM
-FROM ${BUILD_FROM} as BUILD_IMAGE
+ARG BUILD_FROM=node
 
+FROM ${BUILD_FROM} AS build-image
 WORKDIR /ring
 COPY . .
 RUN npm install ./ && npm run build
 
-ARG BUILD_FROM
 FROM ${BUILD_FROM}
-
 WORKDIR /ring
-COPY --from=BUILD_IMAGE /ring/packages ./packages
-COPY --from=BUILD_IMAGE /ring/node_modules ./node_modules
-COPY --from=BUILD_IMAGE /ring/serve-index ./serve-index
+COPY --from=build-image /ring/packages ./packages
+COPY --from=build-image /ring/node_modules ./node_modules
+COPY --from=build-image /ring/serve-index ./serve-index
 
 ENTRYPOINT ["/bin/bash", "-c", \
   "mkdir -p /root/video \
