@@ -117,22 +117,25 @@ async function example(mytokenFile: any,outputdir: any,duration: any) {
   console.log('Doorbots connection: ' + camera.data.alerts.connection)
   var ring_event_id: string = ''
   var latest_event_id: string = ''
-  camera.onNewNotification.subscribe((ding) => {
-    const event =
-      ding.action === PushNotificationAction.Motion ? 'motion'
-      : ding.action === PushNotificationAction.Ding ? 'ding'
-      : `Video started (${ding.action})`
+  camera.onNewNotification.subscribe((notification) => {
+    const action = notification.android_config.category,
+      event =
+        action === PushNotificationAction.Motion
+          ? 'motion'
+          : action === PushNotificationAction.Ding
+          ? 'ding'
+          : `Video started (${action})`
 
     console.log(
       `${event} on ${camera.name} camera. Ding id ${
-        ding.ding.id
+        notification.data.event.ding.id
       }.  Received at ${new Date()}`)
 
-    const ring_event_id = `${ding.ding.id}`
+    const ring_event_id = `${notification.data.event.ding.id}`
     const output_file = getOutputFile(
       outputdir,
       ring_event_id,
-      `${ding.action}`) 
+      `${action}`) 
    
     try {
       var files = glob.sync(path.join(outputdir, "*" + ring_event_id + "_*.mp4"))
