@@ -28,6 +28,16 @@ async function example(mytokenFile: any,outputdir: any,duration: any) {
   const currentToken = await promisify(readFile)(mytokenFile);
   const mytoken = currentToken.toString().replace(/\r|\n/g, '');
 
+  try {
+    await new RingApi({
+      refreshToken: mytoken,
+      debug: false,
+    }).getCameras()
+  } catch (err) {
+    console.log(err)
+    return
+  }
+
   const ringApi = new RingApi({
       refreshToken: mytoken,
       debug: false,
@@ -166,4 +176,22 @@ try {
   example(tokenFile, outputdir, duration)
 } catch (err) {
   console.log('err', err);
+}
+
+const { env } = require('node:process');
+const startIndexAfterCameraFailure = env.START_INDEX_AFTER_CAMERA_FAILURE ?? false
+if (startIndexAfterCameraFailure) {
+  console.log('Start index after camera failure')
+  const express = require('express')
+  const serveIndex = require('serve-index')
+  const app = express()
+  app.use(express.static(outputdir))
+  app.use(serveIndex(outputdir, {'view': 'details', 'fileList': 'name'}))
+  app.use('/ring', express.static(outputdir))
+  app.use('/ring', serveIndex(outputdir, {'view': 'details', 'fileList': 'name'}))
+  app.listen(3000, () => {
+    console.log(
+      'Listening on port 3000.'
+    )
+  })
 }
