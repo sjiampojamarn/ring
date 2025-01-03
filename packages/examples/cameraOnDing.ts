@@ -4,6 +4,9 @@ import { promisify } from 'util'
 
 import path = require("path")
 
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
+
 function getOutputFile(outputdir: string, ring_event_id: string, ding_action: string) {
   const event_ts = new Date()
   return path.join(
@@ -27,6 +30,17 @@ async function example(mytokenFile: any,outputdir: any,duration: any) {
   console.log('Start Ring Api')
   const currentToken = await promisify(readFile)(mytokenFile);
   const mytoken = currentToken.toString().replace(/\r|\n/g, '');
+
+  try {
+    const allCameras = await new RingApi({
+      refreshToken: mytoken,
+      debug: false,
+    }).getCameras()
+    console.log('allCameras length: ' + allCameras.length)
+  } catch (err) {
+    console.log(err)
+    return
+  }
 
   const ringApi = new RingApi({
       refreshToken: mytoken,
@@ -166,4 +180,22 @@ try {
   example(tokenFile, outputdir, duration)
 } catch (err) {
   console.log('err', err);
+}
+
+
+const startIndexAfterCameraFailure = process.env.START_INDEX_AFTER_CAMERA_FAILURE ?? false
+if (startIndexAfterCameraFailure) {
+  console.log('Start index after camera failure')
+  const express = require('express')
+  const serveIndex = require('serve-index')
+  const app = express()
+  app.use(express.static(outputdir))
+  app.use(serveIndex(outputdir, {'view': 'details', 'fileList': 'name'}))
+  app.use('/ring', express.static(outputdir))
+  app.use('/ring', serveIndex(outputdir, {'view': 'details', 'fileList': 'name'}))
+  app.listen(3000, () => {
+    console.log(
+      'Listening on port 3000.'
+    )
+  })
 }

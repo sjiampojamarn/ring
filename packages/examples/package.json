@@ -11,7 +11,7 @@
     "stream-example": "DEBUG=ring node --conditions=development --env-file=../../.env ./stream-example.ts",
     "browser-example": "DEBUG=ring node --conditions=development --env-file=../../.env ./browser-example.ts",
     "lint": "eslint .",
-    "build": "tsc --noEmit"
+    "build": "tsc"
   },
   "devDependencies": {
     "eslint-config-shared": "*",
