@@ -2,7 +2,7 @@ import { PushNotificationAction, RingApi } from 'ring-client-api'
 import { readFile, writeFile } from 'fs'
 import { promisify } from 'util'
 
-import path = require("path")
+import path from 'path';
 
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url)
