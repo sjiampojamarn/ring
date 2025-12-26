@@ -11,9 +11,9 @@ COPY --from=build-image /ring/packages ./packages
 COPY --from=build-image /ring/node_modules ./node_modules
 COPY --from=build-image /ring/serve-index ./serve-index
 
-RUN apk --no-cache add bash wget
+RUN apk --no-cache add wget
 
-ENTRYPOINT ["/bin/bash", "-c", \
+ENTRYPOINT ["/bin/sh", "-c", \
   "mkdir -p /root/video \
      && touch /root/.env \
      && node /ring/packages/examples/lib/cameraOnDing.js /root/video/ 25 /root/.env 2>&1"]
