@@ -1,4 +1,4 @@
-ARG BUILD_FROM=node
+ARG BUILD_FROM=node:lts-alpine
 
 FROM ${BUILD_FROM} AS build-image
 WORKDIR /ring
