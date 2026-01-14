@@ -131,7 +131,7 @@ async function example(mytokenFile: any,outputdir: any,duration: any) {
   console.log('Doorbots connection: ' + camera.data.alerts.connection)
   var ring_event_id: string = ''
   var latest_event_id: string = ''
-  camera.onNewNotification.subscribe((notification) => {
+  camera.onNewNotification.subscribe(async(notification) => {
     const action = notification.android_config.category,
       event =
         action === PushNotificationAction.Motion
@@ -160,8 +160,7 @@ async function example(mytokenFile: any,outputdir: any,duration: any) {
       } else {
         console.log(output_file)
         latest_event_id = ring_event_id
-        camera.recordToFile('/tmp/startup.mp4', 1)
-        camera.recordToFile(output_file, duration)
+        await camera.recordToFile(output_file, duration)
       }
     } catch(err) { 
       console.error(err)
