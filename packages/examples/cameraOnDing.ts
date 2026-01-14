@@ -160,6 +160,7 @@ async function example(mytokenFile: any,outputdir: any,duration: any) {
       } else {
         console.log(output_file)
         latest_event_id = ring_event_id
+        camera.recordToFile('/tmp/startup.mp4', 1)
         camera.recordToFile(output_file, duration)
       }
     } catch(err) { 
