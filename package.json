@@ -21,7 +21,8 @@
     "release:verify": "turbo run build test lint"
   },
   "dependencies": {
-    "serve-index": "file:serve-index"
+    "serve-index": "file:serve-index",
+    "express": "^4.17.1"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^1.0.1",
