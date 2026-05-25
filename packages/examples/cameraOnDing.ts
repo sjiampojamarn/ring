@@ -91,7 +91,31 @@ async function example(mytokenFile: any,outputdir: any,duration: any) {
       ding_action)
     
     console.log(output_file)
-    camera.recordToFile(output_file, duration)
+    // camera.recordToFile(output_file, duration)
+    const call = await camera.streamVideo({
+      // save video 10 second parts so the mp4s are playable and not corrupted:
+      // https://superuser.com/questions/999400/how-to-use-ffmpeg-to-extract-live-stream-into-a-sequence-of-mp4
+      output: [
+        '-flags',
+        '+global_header',
+        '-f',
+        'segment',
+        '-segment_time',
+        duration.toString(),
+        '-segment_format_options',
+        'movflags=+faststart',
+        '-reset_timestamps',
+        '1',
+        path.join(output_file),
+      ],
+    })
+    call.onCallEnded.subscribe(() => {
+      console.log('Call has ended. Saving file to: ' + output_file)
+    })
+    setTimeout(function () {
+      console.log('Stopping call... Saving file to: ' + output_file)
+      call.stop()
+    }, duration.toInteger() * 1000 * 2) // setting timeout to 2x the duration to ensure the file is saved
 
     res.send(
       `<script> setTimeout(function() { window.location.href = '/ring'; }, ` + (duration - 2) * 1000 + `); </script>
@@ -160,7 +184,31 @@ async function example(mytokenFile: any,outputdir: any,duration: any) {
       } else {
         console.log(output_file)
         latest_event_id = ring_event_id
-        await camera.recordToFile(output_file, duration)
+        // await camera.recordToFile(output_file, duration)
+        const call = await camera.streamVideo({
+          // save video 10 second parts so the mp4s are playable and not corrupted:
+          // https://superuser.com/questions/999400/how-to-use-ffmpeg-to-extract-live-stream-into-a-sequence-of-mp4
+          output: [
+            '-flags',
+            '+global_header',
+            '-f',
+            'segment',
+            '-segment_time',
+            duration.toString(),
+            '-segment_format_options',
+            'movflags=+faststart',
+            '-reset_timestamps',
+            '1',
+            path.join(output_file),
+          ],
+        })
+        call.onCallEnded.subscribe(() => {
+          console.log('Call has ended. Saving file to: ' + output_file)
+        })
+        setTimeout(function () {
+          console.log('Stopping call... Saving file to: ' + output_file)
+          call.stop()
+        }, duration.toInteger() * 1000 * 2) // setting timeout to 2x the duration to ensure the file is saved
       }
     } catch(err) { 
       console.error(err)
