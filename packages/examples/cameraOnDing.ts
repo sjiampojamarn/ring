@@ -115,7 +115,7 @@ async function example(mytokenFile: any,outputdir: any,duration: any) {
     setTimeout(function () {
       console.log('Stopping call... Saving file to: ' + output_file)
       call.stop()
-    }, duration.toInteger() * 1000 * 2) // setting timeout to 2x the duration to ensure the file is saved
+    }, duration * 1000 * 2) // setting timeout to 2x the duration to ensure the file is saved
 
     res.send(
       `<script> setTimeout(function() { window.location.href = '/ring'; }, ` + (duration - 2) * 1000 + `); </script>
@@ -208,7 +208,7 @@ async function example(mytokenFile: any,outputdir: any,duration: any) {
         setTimeout(function () {
           console.log('Stopping call... Saving file to: ' + output_file)
           call.stop()
-        }, duration.toInteger() * 1000 * 2) // setting timeout to 2x the duration to ensure the file is saved
+        }, duration * 1000 * 2) // setting timeout to 2x the duration to ensure the file is saved
       }
     } catch(err) { 
       console.error(err)
@@ -221,7 +221,7 @@ async function example(mytokenFile: any,outputdir: any,duration: any) {
 // print process.argv
 var args = process.argv.slice(2);
 var outputdir = args[0]
-var duration = args[1]
+var duration = Number(args[1])
 var tokenFile = args[2]
 
 try {
