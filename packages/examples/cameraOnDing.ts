@@ -91,7 +91,7 @@ async function example(mytokenFile: any,outputdir: any,duration: any) {
       ding_action)
     
     console.log(output_file)
-    await camera.recordToFile(output_file, duration)
+    camera.recordToFile(output_file, duration)
     console.log('Recording saved to: ' + output_file)
     
     res.send(
@@ -161,7 +161,7 @@ async function example(mytokenFile: any,outputdir: any,duration: any) {
       } else {
         console.log(output_file)
         latest_event_id = ring_event_id
-        await camera.recordToFile(output_file, duration)
+        camera.recordToFile(output_file, duration)
         console.log('Recording saved to: ' + output_file)
       }
     } catch(err) { 
