@@ -3,7 +3,7 @@ ARG BUILD_FROM=node:lts-alpine
 FROM ${BUILD_FROM} AS build-image
 WORKDIR /ring
 COPY . .
-RUN npm install ./ && npm run build
+RUN corepack enable && pnpm install --frozen-lockfile && pnpm run build
 
 FROM ${BUILD_FROM}
 WORKDIR /ring
